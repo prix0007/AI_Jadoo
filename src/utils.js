@@ -6,17 +6,17 @@ const ConstructInitGraph = () => {
 
   // Add vertex is x, y
   graph.addVertex(1, 1);
-  graph.addVertex(2, 1);
-  graph.addVertex(3, 1);
   graph.addVertex(1, 2);
-  graph.addVertex(2, 2);
-  graph.addVertex(3, 2);
   graph.addVertex(1, 3);
+  graph.addVertex(2, 1);
+  graph.addVertex(2, 2);
   graph.addVertex(2, 3);
+  graph.addVertex(3, 1);
+  graph.addVertex(3, 2);
   graph.addVertex(3, 3);
-  graph.addVertex(1, 4);
-  graph.addVertex(2, 4);
-  graph.addVertex(3, 4);
+  graph.addVertex(4, 1);
+  graph.addVertex(4, 2);
+  graph.addVertex(4, 3);
   
   // Add Edge is as Follow
   // Node1, Node2, Weight
