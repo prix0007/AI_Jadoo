@@ -58,6 +58,17 @@ class Graph {
     return this.edges.length
   }
 
+  findEdgePair(nodeA, nodeB) {
+    this.edges.forEach((edge) => {
+      let a = edge.nodeA;
+      let b = edge.nodeB;
+      if (a.x === nodeA.x && a.y === nodeA.y && b.x === nodeB.x && b.y === nodeB.y) {
+        return edge.weight;
+      }
+    })
+    return -1;
+  }
+
 }
 
 

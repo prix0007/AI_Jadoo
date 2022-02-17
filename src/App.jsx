@@ -3,7 +3,6 @@ import './App.css';
 
 import { Graph, Node } from "./graph";
 import { ConstructInitGraph } from "./utils";
-import sha256 from 'crypto-js/sha256';
 
 const drawLine = (ctx, x1, y1, x2, y2, color, width) => {
   ctx.save();
@@ -226,6 +225,82 @@ function App() {
     
   }
 
+  const uniform_cost_search = (start, goal) => {
+
+    let answer = new Array();
+    let queue = new Array();
+
+    for (let i = 0; i < goal.length; ++i) {
+      answer.push(10**8);
+    }
+
+    // Fill the Answers with MAX Value
+
+    let first_elem = new Array();
+    first_elem.push(0);
+    first_elem.push(start);
+    queue.push(first_elem);
+
+    let visited = new Map();
+
+    let count = 0;
+
+    while(queue.length > 0) {
+      queue = queue.sort();
+
+      let p = queue.pop();
+
+      setPacman(p[1]);
+      sleep(2000);
+
+      p[0] *= -1;
+
+      if (goal.includes(p[1])) {
+
+        let index = goal.findIndex((e) => {e.x === p[1].x && e.y === p[1].y})
+
+        if (answer[index] === 10**8) {
+          count += 1
+        }
+
+        if (answer[index] > p[0]) {
+          answer[index] = p[0]
+        }
+
+        queue.pop()
+
+
+        queue = queue.sort()
+
+        if (count === goal.length) {
+          return answer;
+        }
+      }
+
+      if (!visited.has(p[1])) {
+        let cur_n = get_current_neighbours(p[1]);
+        for(let i = 0; i < cur_n.length; ++i) {
+          let queue_elem = new Array();
+          let cost = graph.findEdgePair(p[1], cur_n[i]);
+          
+          queue_elem.push(p[0] + cost - 1);
+          queue_elem.push(cur_n[i]);
+          queue.push(queue_elem);
+        }
+      }
+
+      visited.set(p[1], 1);
+
+    }
+
+    console.log(answer);
+    return answer;
+
+
+  }
+
+  let goal_node = new Array();
+  goal_node.push(new Node(3, 2));
 
   return (
     <main>
@@ -263,6 +338,7 @@ function App() {
           />
         </div>
         <button onClick={() => depth_first_search(new Node(1, 1), new Node(3, 2))}>Depth First Search</button>
+        <button onClick={() => uniform_cost_search(new Node(1, 1), goal_node)}>Uniform Cost Search</button>
       </div>
     </main>
   );
